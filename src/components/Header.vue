@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+const emit = defineEmits(["show-card"]);
+</script>
 <template>
   <header>
     <div class="logo">乱七八糟</div>
@@ -32,7 +34,7 @@
         <li><a href="#">发帖</a></li>
         <li><a href="#">消息</a></li>
         <li><a href="#">个人中心</a></li>
-        <li><a href="#">登录</a></li>
+        <li><a href="#" @click.prevent="emit('show-card')">登录</a></li>
         <li><a href="#">注册</a></li>
       </ul>
     </nav>

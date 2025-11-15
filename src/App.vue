@@ -1,11 +1,16 @@
 <script setup>
+import { ref } from "vue";
 import Header from "./components/Header.vue";
 import Main from "./components/Main.vue";
 import Footer from "./components/Footer.vue";
+import Card from "./components/Card.vue";
+
+const display = ref(false);
 </script>
 
 <template>
-  <Header></Header>
+  <Header @show-card="display = true"></Header>
+  <Card :display="display" @close="display = false"></Card>
   <Main></Main>
   <Footer></Footer>
 </template>

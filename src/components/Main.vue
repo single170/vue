@@ -1,82 +1,82 @@
-<script setup> 
-      let searchHistory = [
-        { id: 1, text: "3.7全局抽卡规划" },
-        { id: 2, text: "3.6剧情解析" },
-        { id: 3, text: "3.7前瞻日期" },
-      ];
+<script setup>
+let searchHistory = [
+  { id: 1, text: "3.7全局抽卡规划" },
+  { id: 2, text: "3.6剧情解析" },
+  { id: 3, text: "3.7前瞻日期" },
+];
 
-      const searchInput = document.getElementById("searchtext");
-      const historyList = document.getElementById("history-list");
-      const clearBtn = document.getElementById("clear-history");
-      const searchBtn = document.getElementById("search-button");
+const searchInput = document.getElementById("searchtext");
+const historyList = document.getElementById("history-list");
+const clearBtn = document.getElementById("clear-history");
+const searchBtn = document.getElementById("search-button");
 
-      function updateHistory() {
-        historyList.innerHTML = "";
-        searchHistory.forEach((item) => {
-          const li = document.createElement("li");
-          li.style.cssText =
-            "display:flex;justify-content:space-between;padding:6px 12px;border-bottom:1px solid #eee;cursor:pointer";
-          li.innerHTML = `
+function updateHistory() {
+  historyList.innerHTML = "";
+  searchHistory.forEach((item) => {
+    const li = document.createElement("li");
+    li.style.cssText =
+      "display:flex;justify-content:space-between;padding:6px 12px;border-bottom:1px solid #eee;cursor:pointer";
+    li.innerHTML = `
       <span>${item.text}</span>
       <button class="clear-button" data-id="${item.id}">×</button>
     `;
 
-          // 插入文字和删除按钮
-          li.innerHTML = `
+    // 插入文字和删除按钮
+    li.innerHTML = `
       <span>${item.text}</span>
       <button class="clear-button" data-id="${item.id}">×</button>
     `;
 
-          /* 点击文字回填搜索框 */
-          li.querySelector("span").addEventListener("click", () => {
-            searchInput.value = item.text; // 把文字塞进输入框
-          });
+    /* 点击文字回填搜索框 */
+    li.querySelector("span").addEventListener("click", () => {
+      searchInput.value = item.text; // 把文字塞进输入框
+    });
 
-          /* 点击 × 删除单条 */
-          li.querySelector("button").addEventListener("click", (e) => {
-            e.stopPropagation(); // 阻止冒泡，防止触发 li 的点击
-            deleteHistoryItem(item.id); // 真正删除
-          });
+    /* 点击 × 删除单条 */
+    li.querySelector("button").addEventListener("click", (e) => {
+      e.stopPropagation(); // 阻止冒泡，防止触发 li 的点击
+      deleteHistoryItem(item.id); // 真正删除
+    });
 
-          historyList.appendChild(li); // 把 <li> 塞进 <ul>
-        });
-      }
+    historyList.appendChild(li); // 把 <li> 塞进 <ul>
+  });
+}
 
-      /* ========== 增删逻辑 ========== */
-      function addHistory(text) {
-        if (!text) return; // 空字符串直接返回
-        /* 去重：已有则提前 */
-        searchHistory = searchHistory.filter((h) => h.text !== text); // 去掉同名旧记录
-        searchHistory.unshift({ id: Date.now(), text }); // 新记录插到最前面
-        /* 最多保留 8 条 */
-        searchHistory = searchHistory.slice(0, 8);
-        updateHistory(); // 重新渲染
-      }
+/* ========== 增删逻辑 ========== */
+function addHistory(text) {
+  if (!text) return; // 空字符串直接返回
+  /* 去重：已有则提前 */
+  searchHistory = searchHistory.filter((h) => h.text !== text); // 去掉同名旧记录
+  searchHistory.unshift({ id: Date.now(), text }); // 新记录插到最前面
+  /* 最多保留 8 条 */
+  searchHistory = searchHistory.slice(0, 8);
+  updateHistory(); // 重新渲染
+}
 
-      function deleteHistoryItem(id) {
-        searchHistory = searchHistory.filter((h) => h.id !== id); // 留下 id 不同的
-        updateHistory(); // 重新渲染
-      }
+function deleteHistoryItem(id) {
+  searchHistory = searchHistory.filter((h) => h.id !== id); // 留下 id 不同的
+  updateHistory(); // 重新渲染
+}
 
-      function clearHistory() {
-        searchHistory = []; // 直接清空数组
-        updateHistory(); // 重新渲染（此时会显示空列表）
-      }
+function clearHistory() {
+  searchHistory = []; // 直接清空数组
+  updateHistory(); // 重新渲染（此时会显示空列表）
+}
 
-      searchBtn.addEventListener("click", () => {
-        const val = searchInput.value.trim();
-        if (!val) {
-          alert("请输入内容");
-          return;
-        }
-        addHistory(val);
-        searchInput.value = "";
-      });
+searchBtn.addEventListener("click", () => {
+  const val = searchInput.value.trim();
+  if (!val) {
+    alert("请输入内容");
+    return;
+  }
+  addHistory(val);
+  searchInput.value = "";
+});
 
-      clearBtn.addEventListener("click", clearHistory);
+clearBtn.addEventListener("click", clearHistory);
 
-      updateHistory();
-    </script>
+updateHistory();
+</script>
 <template>
   <main>
     <section class="latest-posts">
